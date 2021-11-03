@@ -34,9 +34,13 @@ if(w) {
 ```
 
 ## example
-
 ### run example
 get file without llvm optimizations:
-`clang-10 -S -O3 -emit-llvm -mllvm -disable-llvm-optzns source.c`
-get file with loop unswitch optimization from file without llvm optimizations:
-`opt-10 -S -licm --loop-unswitch source.ll -o source_o3.ll --print-before=loop-unswitch --print-after=loop-unswitch &> file.txt`
+
+`clang-12 -S -O3 -emit-llvm -mllvm -disable-llvm-optzns source.c`
+get file with licm optimization (required for loop unswitch opt):
+
+`opt-12 -S -licm source.ll -o source_licm.ll`
+get file with loop unswitch optimization from file with licm optimization:
+
+`opt-12 -S -loop-unswitch source_licm.ll -o source_loopunsw.ll --print-before=loop-unswitch --print-after=loop-unswitch &> file_temp.txt`
